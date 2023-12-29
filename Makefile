@@ -1,8 +1,8 @@
-# $NetBSD: Makefile,v 1.10 2022/06/30 11:18:10 nia Exp $
+# $NetBSD: Makefile,v 1.13 2023/10/23 06:37:37 wiz Exp $
 
 DISTNAME=	redo-0.42d
 PKGNAME=	apenwarr-${DISTNAME}
-PKGREVISION=	1
+PKGREVISION=	3
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GITHUB:=apenwarr/}
 GITHUB_PROJECT=	redo
@@ -13,11 +13,10 @@ HOMEPAGE=	https://github.com/apenwarr/redo/
 COMMENT=	Python implementation of DJB's redo build tool
 LICENSE=	apache-2.0
 
-BUILD_DEPENDS+=	${PYPKGPREFIX}-beautifulsoup4-[0-9]*:../../www/py-beautifulsoup4
-BUILD_DEPENDS+=	${PYPKGPREFIX}-markdown-[0-9]*:../../textproc/py-markdown
+TOOL_DEPENDS+=	${PYPKGPREFIX}-beautifulsoup4-[0-9]*:../../www/py-beautifulsoup4
+TOOL_DEPENDS+=	${PYPKGPREFIX}-markdown-[0-9]*:../../textproc/py-markdown
 DEPENDS+=	dash-[0-9]*:../../shells/dash
 DEPENDS+=	${PYPKGPREFIX}-setproctitle-[0-9]*:../../sysutils/py-setproctitle
-DEPENDS+=	${PYPKGPREFIX}-sqlite3-[0-9]*:../../databases/py-sqlite3
 
 WRKSRC=		${WRKDIR}/redo-${DISTNAME}
 
@@ -36,6 +35,7 @@ post-install:
 	cd ${DESTDIR}${PREFIX}/${PKGMANDIR}/man1; \
 	for i in *; do mv -f $${i} apenwarr-$${i}; done
 
+.include "../../lang/python/batteries-included.mk"
 .include "../../lang/python/application.mk"
 .include "../../lang/python/extension.mk"
 .include "../../mk/bsd.pkg.mk"
